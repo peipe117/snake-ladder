@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蛇梯棋生成器</title>
+    <style>
+        :root {
+            --primary-color: #ff7e67;
+            --secondary-color: #a8e6cf;
+            --bg-color: #f4f7f6;
+            --panel-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --cell-bg: rgba(255, 255, 255, 0.75);
+        }
+
+        body {
+            font-family: 'Nunito', 'Comic Sans MS', '微軟正黑體', 'PingFang TC', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 網站頁首 */
+        .app-header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            color: #d84315;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
+        }
+
+        /* 主要內容區 */
+        .app-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            flex-grow: 1;
+        }
+
+        /* 控制儀表板 */
+        .controls {
+            background: var(--panel-bg);
+            padding: 25px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .controls-grid { grid-template-columns: 1fr; }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .input-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .input-group label {
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: flex-end;
+        }
+
+        /* 表單元件美化 */
+        #bg-upload, textarea, select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            background-color: #f8fafc;
+        }
+
+        input[type="number"] { width: 100px; text-align: center; }
+
+        #bg-upload:focus, textarea:focus, select:focus, input[type="text"]:focus, input[type="number"]:focus {
+            border-color: var(--secondary-color);
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(168, 230, 207, 0.3);
+        }
+
+        textarea { height: 100px; resize: vertical; line-height: 1.5; }
+
+        /* 按鈕美化 */
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #eee;
+        }
+
+        button {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:active { transform: scale(0.97); }
+
+        .btn-generate { 
+            background-color: var(--secondary-color); 
+            color: #1b5e20; 
+            box-shadow: 0 4px 15px rgba(168,230,207,0.4);
+        }
+        .btn-generate:hover { background-color: #81c784; transform: translateY(-2px); }
+
+        .btn-print { 
+            background-color: var(--primary-color); 
+            color: white; 
+            box-shadow: 0 4px 15px rgba(255,126,103,0.4);
+        }
+        .btn-print:hover { background-color: #ff6b52; transform: translateY(-2px); }
+
+        .btn-random {
+            background-color: #fff9c4;
+            color: #d84315;
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 8px;
+            border: 1px solid #ffe082;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .btn-random:hover { background-color: #fff59d; }
+
+        .btn-clear-bg {
+            background-color: #ffccbc;
+            color: #bf360c;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+            display: none; 
+            transition: all 0.2s;
+        }
+        .btn-clear-bg:hover { background-color: #ffab91; }
+
+        /* 圖板排列樣式 */
+        .grid-classic { gap: 2px; }
+        
+        .grid-organic { gap: 16px; padding: 15px; }
+        .grid-organic .cell {
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; 
+            border: 2px solid #8d6e63;
+            background: rgba(255, 253, 240, 0.85);
+            box-shadow: 2px 4px 0px rgba(141, 110, 99, 0.15);
+            transition: transform 0.2s;
+        }
+        .grid-organic .cell:nth-child(even) { transform: rotate(1.5deg) translateY(3px); }
+        .grid-organic .cell:nth-child(odd) { transform: rotate(-1.5deg) translateY(-3px); }
+        
+        .grid-spiral { gap: 8px; padding: 10px; }
+        .grid-spiral .cell {
+            border-radius: 40px; 
+            border: 2px solid #bcaaa4;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* 箭頭與格層樣式 */
+        .path-arrow {
+            position: absolute;
+            color: rgba(255, 126, 103, 0.9);
+            font-size: 22px;
+            font-weight: bold;
+            z-index: 5;
+            pointer-events: none;
+            text-shadow: 0 0 4px white, 0 0 4px white;
+        }
+        .arrow-right { right: -18px; top: 50%; transform: translateY(-50%); }
+        .arrow-left { left: -18px; top: 50%; transform: translateY(-50%) rotate(180deg); }
+        .arrow-up { top: -18px; left: 50%; transform: translateX(-50%) rotate(-90deg); }
+        .arrow-down { bottom: -18px; left: 50%; transform: translateX(-50%) rotate(90deg); }
+
+        #grid-text { z-index: 3000; pointer-events: none; }
+        .cell-overlay {
+            background: transparent !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+        }
+
+        /* SVG 蛇與梯子 */
+        #svg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 2000;
+        }
+        .snake-path { fill: none; stroke: #aed581; stroke-width: 12; stroke-linecap: round; }
+        .snake-outline { fill: none; stroke: #558b2f; stroke-width: 18; stroke-linecap: round; }
+        .ladder-rail { stroke: #8d6e63; stroke-width: 6; stroke-linecap: round; }
+        .ladder-rung { stroke: #a1887f; stroke-width: 4; stroke-linecap: round; }
+
+        /* 遊戲圖版區塊 (A4) */
+        .board-wrapper {
+            width: 100%;
+            overflow-x: auto; /* 在小螢幕上可以滾動 */
+            padding-bottom: 40px;
+            text-align: center; /* 幫助置中對齊，避免左側截斷 */
+        }
+
+        #game-board-container {
+            position: relative;
+            width: 297mm;
+            height: 210mm;
+            background-color: #e0f7fa;
+            background-image: radial-gradient(#b2ebf2 2px, transparent 2px), radial-gradient(#b2ebf2 2px, transparent 2px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            display: inline-flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            border: 1px solid #ddd;
+            text-align: left; /* 恢復內部元素靠左對齊 */
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0;
+            padding: 5mm; box-sizing: border-box; gap: 2px;
+        }
+
+        .cell {
+            position: relative;
+            display: flex; justify-content: center; align-items: center; text-align: center;
+            padding: 8px; font-size: 16px; font-weight: bold; color: var(--text-main);
+            background: var(--cell-bg);
+            backdrop-filter: blur(3px);
+            border-radius: 8px; box-sizing: border-box;
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0,0,0,0.05);
+            border: 2px solid rgba(0, 0, 0, 0.05);
+            word-break: break-word; line-height: 1.3;
+        }
+
+        .cell-number {
+            position: absolute; top: 4px; left: 6px; font-size: 12px; color: #888; font-weight: normal;
+        }
+        .cell-text { z-index: 1; }
+        .cell-start { background: #dcedc8; border-color: #8bc34a; }
+        .cell-end { background: #ffcdd2; border-color: #e57373; }
+
+        /* 頁尾 */
+        .app-footer {
+            text-align: center; padding: 20px; color: var(--text-muted); font-size: 14px; margin-top: auto;
+        }
+
+        /* 列印模式設定 */
+        @media print {
+            @page { size: A4 landscape; margin: 0; }
+            body { 
+                background: white; padding: 0; margin: 0; 
+                -webkit-print-color-adjust: exact !important; /* 確保列印時保留所有精美的背景顏色 */
+                print-color-adjust: exact !important;
+            }
+            .app-header, .controls, .app-footer { display: none !important; }
+            .app-main { padding: 0; max-width: none; display: block; }
+            .board-wrapper { padding: 0; overflow: visible; display: block; }
+            #game-board-container { 
+                box-shadow: none !important; border-radius: 0 !important; border: none !important;
+                width: 297mm !important; height: 210mm !important; page-break-inside: avoid;
+                margin: 0 !important;
+            }
+            .cell { 
+                /* 解決 PDF 產生時箭頭被吃掉的 Bug：列印時暫時關閉毛玻璃濾鏡 */
+                backdrop-filter: none !important; 
+                box-shadow: none !important;
+                /* 移除了原本醜醜的預設虛線，保留您選擇的漂亮邊框 */
+            }
+            .path-arrow {
+                z-index: 1000 !important; /* 強制提高箭頭在 PDF 列印時的圖層級別 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <h1>🐍 蛇梯棋生成器 🪜</h1>
+    </header>
+
+    <main class="app-main">
+        <section class="controls">
+            <div class="controls-grid">
+                <!-- 左側/上方欄位 -->
+                <div class="input-group">
+                    <label for="bg-upload">1. 上傳自訂背景圖（選填）</label>
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <input type="file" id="bg-upload" accept="image/*" style="flex-grow: 1;">
+                        <button id="btn-clear-bg" class="btn-clear-bg" onclick="clearBackground()">❌ 移除</button>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="layout-style">2. 選擇路徑排列方式</label>
+                    <select id="layout-style" onchange="generateGrid()">
+                        <option value="classic">經典 S 型緊密方格</option>
+                        <option value="organic" selected>🌿 自然手繪小徑 (推薦)</option>
+                        <option value="spiral">🌀 螺旋向內迷宮</option>
+                    </select>
+                </div>
+
+                <div class="input-group full-width">
+                    <label>3. 設定網格大小 (行 × 列)</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="number" id="grid-cols" value="10" min="2" max="25" onchange="generateGrid()" title="左右有幾格"> 
+                        <span style="color: #7f8c8d; font-weight: bold;">行 × </span>
+                        <input type="number" id="grid-rows" value="10" min="2" max="25" onchange="generateGrid()" title="上下有幾格">
+                        <span style="color: #7f8c8d; font-weight: bold;">列</span>
+                    </div>
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="vocabulary">
+                        4. 填寫生詞與句型 (逗號或換行分隔)
+                        <span id="word-count-display" style="color: #ff7e67;">(目前：0 個字)</span>
+                    </label>
+                    <textarea id="vocabulary" placeholder="請在此貼上您的詞彙清單..." oninput="updateWordCount()"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="ladders-input">
+                        5. 設定梯子 (起點-終點)
+                        <button class="btn-random" onclick="generateRandomConnections()" title="依格數自動隨機產生">🎲 隨機配置</button>
+                    </label>
+                    <input type="text" id="ladders-input" value="4-25, 13-46, 33-49, 50-69, 42-63, 62-81, 74-92">
+                </div>
+
+                <div class="input-group">
+                    <label for="snakes-input">
+                        6. 設定蛇 (蛇頭-蛇尾)
+                        <span style="width: 70px;"></span> 
+                    </label>
+                    <input type="text" id="snakes-input" value="27-5, 40-3, 43-18, 54-31, 66-45, 76-58, 89-53, 99-41">
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn-generate" onclick="generateGrid()">✨ 套用並生成圖板</button>
+                <button class="btn-print" onclick="window.print()">🖨️ 列印 / 存成 PDF</button>
+            </div>
+        </section>
+
+        <section class="board-wrapper">
+            <div id="game-board-container">
+                <div class="grid" id="grid-base">
+                    <!-- 底層格子將由 JavaScript 動態生成 -->
+                </div>
+                <!-- SVG 繪圖層用來畫蛇和梯子 -->
+                <svg id="svg-layer"></svg>
+                <!-- 頂層文字網格，確保生詞永遠在最上面 -->
+                <div class="grid" id="grid-text">
+                    <!-- 頂層生詞將由 JavaScript 動態生成 -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        Design for Chinese Language Teaching 🌟 | Created by Sophia Wong
+    </footer>
+
+    <script>
+        const defaultVocab = "起點, \n\n休息一次, \n\n終點";
+
+        function updateWordCount() {
+            let inputText = document.getElementById('vocabulary').value;
+            let list = inputText.split(/[,，\n]/).map(item => item.trim()).filter(item => item !== "");
+            document.getElementById('word-count-display').innerText = `(目前：${list.length} 個字)`;
+        }
+
+        function getGridSize() {
+            let cols = parseInt(document.getElementById('grid-cols').value) || 10;
+            let rows = parseInt(document.getElementById('grid-rows').value) || 10;
+            return { cols, rows, total: cols * rows };
+        }
+
+        function getVocabList(totalCells) {
+            let inputText = document.getElementById('vocabulary').value;
+            let list = inputText.split(/[,，\n]/).map(item => item.trim()).filter(item => item !== "");
+            if (list.length > totalCells) {
+                list = list.slice(0, totalCells);
+            }
+            return list;
+        }
+
+        function getMatrix(style, rows, cols) {
+            let matrix = Array(rows).fill(0).map(() => Array(cols).fill(-1));
+            let total = rows * cols;
+
+            if (style === 'classic' || style === 'organic') {
+                for (let visualRow = 0; visualRow < rows; visualRow++) {
+                    let gameRow = rows - 1 - visualRow;
+                    let isLeftToRight = (gameRow % 2 === 0);
+                    for (let col = 0; col < cols; col++) {
+                        let index = isLeftToRight ? (gameRow * cols + col) : (gameRow * cols + (cols - 1 - col));
+                        matrix[visualRow][col] = index;
+                    }
+                }
+            } else if (style === 'spiral') {
+                let top = 0, bottom = rows - 1, left = 0, right = cols - 1;
+                let r = rows - 1, c = 0;
+                let dir = 'R'; 
+                for (let i = 0; i < total; i++) {
+                    matrix[r][c] = i;
+                    if (dir === 'R') {
+                        if (c === right) { dir = 'U'; bottom--; r--; } else { c++; }
+                    } else if (dir === 'U') {
+                        if (r === top) { dir = 'L'; right--; c--; } else { r--; }
+                    } else if (dir === 'L') {
+                        if (c === left) { dir = 'D'; top++; r++; } else { c--; }
+                    } else if (dir === 'D') {
+                        if (r === bottom) { dir = 'R'; left++; c++; } else { r++; }
+                    }
+                }
+            }
+            return matrix;
+        }
+
+        function getNextCoords(matrix, nextIndex, rows, cols) {
+            for(let r = 0; r < rows; r++){
+                for(let c = 0; c < cols; c++){
+                    if(matrix[r][c] === nextIndex) return {r, c};
+                }
+            }
+            return null;
+        }
+
+        function generateGrid() {
+            const { cols, rows, total } = getGridSize();
+            const vocabList = getVocabList(total);
+            const gridBase = document.getElementById('grid-base');
+            const gridText = document.getElementById('grid-text');
+            const style = document.getElementById('layout-style').value;
+            
+            gridBase.className = `grid grid-${style}`;
+            gridBase.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            gridBase.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+            gridText.className = `grid grid-${style}`;
+            gridText.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            gridText.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            
+            let matrix = getMatrix(style, rows, cols);
+            let htmlBase = '';
+            let htmlText = '';
+            
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    let index = matrix[r][c];
+                    let cellNumber = index + 1;
+                    
+                    let cellText = vocabList[index] || " ";
+                    let extraClass = "";
+                    if (cellNumber === 1) extraClass = " cell-start";
+                    if (cellNumber === total) extraClass = " cell-end";
+
+                    let arrowHtml = '';
+                    if (style !== 'classic' && index < total - 1) {
+                        let nextCoords = getNextCoords(matrix, index + 1, rows, cols);
+                        if (nextCoords) {
+                            let dr = nextCoords.r - r;
+                            let dc = nextCoords.c - c;
+                            let arrowClass = '';
+                            if (dc === 1) arrowClass = 'arrow-right';
+                            else if (dc === -1) arrowClass = 'arrow-left';
+                            else if (dr === -1) arrowClass = 'arrow-up';
+                            else if (dr === 1) arrowClass = 'arrow-down';
+                            
+                            if (arrowClass) {
+                                arrowHtml = `<span class="path-arrow ${arrowClass}">➔</span>`;
+                            }
+                        }
+                    }
+
+                    htmlBase += `
+                        <div class="cell${extraClass}" style="z-index: ${1000 - index};">
+                            <span class="cell-number">${cellNumber}</span>
+                            <span class="cell-text" style="visibility: hidden;">${cellText}</span>
+                            ${arrowHtml}
+                        </div>
+                    `;
+
+                    htmlText += `
+                        <div class="cell cell-overlay">
+                            <span class="cell-text">${cellText}</span>
+                        </div>
+                    `;
+                }
+            }
+            gridBase.innerHTML = htmlBase;
+            gridText.innerHTML = htmlText;
+            
+            setTimeout(drawConnections, 50);
+        }
+
+        function drawConnections() {
+            const svgLayer = document.getElementById('svg-layer');
+            svgLayer.innerHTML = '';
+
+            const laddersText = document.getElementById('ladders-input').value;
+            const snakesText = document.getElementById('snakes-input').value;
+
+            const parsePairs = (str) => str.split(/[,，]/).map(s => s.trim().split('-').map(Number)).filter(p => p.length === 2 && !isNaN(p[0]) && !isNaN(p[1]));
+
+            const ladders = parsePairs(laddersText);
+            const snakes = parsePairs(snakesText);
+
+            const getCellCenter = (num) => {
+                const cells = document.querySelectorAll('#grid-base .cell');
+                for (let cell of cells) {
+                    if (cell.querySelector('.cell-number').textContent == num) {
+                        const rect = cell.getBoundingClientRect();
+                        const containerRect = document.getElementById('game-board-container').getBoundingClientRect();
+                        return {
+                            x: rect.left - containerRect.left + rect.width / 2,
+                            y: rect.top - containerRect.top + rect.height / 2
+                        };
+                    }
+                }
+                return null;
+            };
+
+            const drawSVG = (pairs, type) => {
+                pairs.forEach(([start, end]) => {
+                    const pt1 = getCellCenter(start);
+                    const pt2 = getCellCenter(end);
+                    if (!pt1 || !pt2) return;
+
+                    const dx = pt2.x - pt1.x;
+                    const dy = pt2.y - pt1.y;
+                    const L = Math.sqrt(dx*dx + dy*dy);
+                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+                    let g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+                    if (type === 'ladder') {
+                        g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, -25)`);
+                        
+                        let r1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                        r1.setAttribute("x1", 0); r1.setAttribute("y1", -12); r1.setAttribute("x2", L); r1.setAttribute("y2", -12);
+                        r1.setAttribute("class", "ladder-rail");
+                        g.appendChild(r1);
+                        
+                        let r2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                        r2.setAttribute("x1", 0); r2.setAttribute("y1", 12); r2.setAttribute("x2", L); r2.setAttribute("y2", 12);
+                        r2.setAttribute("class", "ladder-rail");
+                        g.appendChild(r2);
+                        
+                        for (let x = 15; x < L - 10; x += 25) {
+                            let rung = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                            rung.setAttribute("x1", x); rung.setAttribute("y1", -12); rung.setAttribute("x2", x); rung.setAttribute("y2", 12);
+                            rung.setAttribute("class", "ladder-rung");
+                            g.appendChild(rung);
+                        }
+                    } else if (type === 'snake') {
+                        g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, 25)`);
+
+                        let pathStr = `M 0 0`;
+                        let seg = 30;
+                        let amp = 15;
+                        for (let x = 0; x < L; x += seg) {
+                            let endX = Math.min(x + seg, L);
+                            let midX = x + (endX - x) / 2;
+                            let sign = (x / seg) % 2 === 0 ? 1 : -1;
+                            pathStr += ` Q ${midX} ${amp * sign}, ${endX} 0`;
+                        }
+                        
+                        let outPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        outPath.setAttribute("d", pathStr);
+                        outPath.setAttribute("class", "snake-outline");
+                        g.appendChild(outPath);
+
+                        let inPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        inPath.setAttribute("d", pathStr);
+                        inPath.setAttribute("class", "snake-path");
+                        g.appendChild(inPath);
+
+                        let headOutline = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        headOutline.setAttribute("cx", 0); headOutline.setAttribute("cy", 0); headOutline.setAttribute("r", 15);
+                        headOutline.setAttribute("fill", "#558b2f");
+                        g.appendChild(headOutline);
+
+                        let head = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        head.setAttribute("cx", 0); head.setAttribute("cy", 0); head.setAttribute("r", 12);
+                        head.setAttribute("fill", "#aed581");
+                        g.appendChild(head);
+
+                        let eye1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        eye1.setAttribute("cx", -4); eye1.setAttribute("cy", -5); eye1.setAttribute("r", 3);
+                        eye1.setAttribute("fill", "white");
+                        g.appendChild(eye1);
+                        
+                        let eye2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        eye2.setAttribute("cx", -4); eye2.setAttribute("cy", 5); eye2.setAttribute("r", 3);
+                        eye2.setAttribute("fill", "white");
+                        g.appendChild(eye2);
+
+                        let pupil1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        pupil1.setAttribute("cx", -5); pupil1.setAttribute("cy", -5); pupil1.setAttribute("r", 1.5);
+                        pupil1.setAttribute("fill", "black");
+                        g.appendChild(pupil1);
+
+                        let pupil2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        pupil2.setAttribute("cx", -5); pupil2.setAttribute("cy", 5); pupil2.setAttribute("r", 1.5);
+                        pupil2.setAttribute("fill", "black");
+                        g.appendChild(pupil2);
+                    }
+                    svgLayer.appendChild(g);
+                });
+            }
+
+            drawSVG(ladders, 'ladder');
+            drawSVG(snakes, 'snake');
+        }
+
+        window.addEventListener('resize', () => {
+            setTimeout(drawConnections, 100);
+        });
+
+        function generateRandomConnections() {
+            const { cols, total } = getGridSize();
+            const pairCount = Math.max(1, Math.floor(total / 12)); 
+            
+            let usedCells = new Set([1, total]);
+            let ladders = [];
+            let snakes = [];
+
+            function getValidPair(isSnake) {
+                let attempts = 0;
+                while(attempts < 200) {
+                    attempts++;
+                    let c1 = Math.floor(Math.random() * (total - 2)) + 2; 
+                    let c2 = Math.floor(Math.random() * (total - 2)) + 2;
+                    
+                    if (c1 === c2) continue;
+                    if (usedCells.has(c1) || usedCells.has(c2)) continue;
+                    if (Math.abs(c1 - c2) < cols) continue;
+                    
+                    usedCells.add(c1);
+                    usedCells.add(c2);
+                    
+                    if (isSnake) {
+                        return [Math.max(c1, c2), Math.min(c1, c2)];
+                    } else {
+                        return [Math.min(c1, c2), Math.max(c1, c2)];
+                    }
+                }
+                return null;
+            }
+
+            for (let i = 0; i < pairCount; i++) {
+                let pair = getValidPair(false);
+                if (pair) ladders.push(`${pair[0]}-${pair[1]}`);
+            }
+
+            for (let i = 0; i < pairCount; i++) {
+                let pair = getValidPair(true);
+                if (pair) snakes.push(`${pair[0]}-${pair[1]}`);
+            }
+
+            document.getElementById('ladders-input').value = ladders.join(', ');
+            document.getElementById('snakes-input').value = snakes.join(', ');
+
+            drawConnections();
+        }
+
+        document.getElementById('bg-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const board = document.getElementById('game-board-container');
+                    board.style.backgroundImage = `url(${event.target.result})`;
+                    board.style.backgroundSize = 'cover';
+                    board.style.backgroundPosition = 'center';
+                    document.getElementById('btn-clear-bg').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function clearBackground() {
+            const board = document.getElementById('game-board-container');
+            const fileInput = document.getElementById('bg-upload');
+            const clearBtn = document.getElementById('btn-clear-bg');
+            
+            board.style.backgroundImage = '';
+            board.style.backgroundSize = '';
+            board.style.backgroundPosition = '';
+            
+            fileInput.value = '';
+            clearBtn.style.display = 'none';
+        }
+
+        document.getElementById('vocabulary').value = defaultVocab;
+        updateWordCount();
+        generateGrid();
+    </script>
+</body>
+</html>
