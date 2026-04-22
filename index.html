@@ -415,7 +415,7 @@
     </main>
 
     <footer class="app-footer">
-        Design for Chinese Language Teaching 🌟 | Created by Sophia Wong
+        Powered by Gemini | Sophia老師的AI練習本
     </footer>
 
     <script>
@@ -491,6 +491,16 @@
             const gridText = document.getElementById('grid-text');
             const style = document.getElementById('layout-style').value;
             
+            // 動態計算整體基礎字體與箭頭大小
+            const boardContainer = document.getElementById('game-board-container');
+            const baseFontSize = Math.min(260 / cols, 190 / rows);
+            boardContainer.style.setProperty('--base-font-size', `${baseFontSize}px`);
+            boardContainer.style.setProperty('--num-font-size', `${Math.max(9, baseFontSize * 0.55)}px`);
+            
+            const arrowSize = Math.max(10, baseFontSize * 1.2);
+            boardContainer.style.setProperty('--arrow-size', `${arrowSize}px`);
+            boardContainer.style.setProperty('--arrow-offset', `${arrowSize * -0.8}px`);
+
             gridBase.className = `grid grid-${style}`;
             gridBase.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
             gridBase.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
@@ -513,6 +523,13 @@
                     if (cellNumber === 1) extraClass = " cell-start";
                     if (cellNumber === total) extraClass = " cell-end";
 
+                    // 針對個別超長單字再次進行微縮放
+                    let charCount = cellText.length;
+                    let textScale = 1;
+                    if (charCount > 8) textScale = 0.65;
+                    else if (charCount > 5) textScale = 0.8;
+                    else if (charCount > 3) textScale = 0.9;
+
                     let arrowHtml = '';
                     if (style !== 'classic' && index < total - 1) {
                         let nextCoords = getNextCoords(matrix, index + 1, rows, cols);
@@ -534,14 +551,14 @@
                     htmlBase += `
                         <div class="cell${extraClass}" style="z-index: ${1000 - index};">
                             <span class="cell-number">${cellNumber}</span>
-                            <span class="cell-text" style="visibility: hidden;">${cellText}</span>
+                            <span class="cell-text" style="visibility: hidden; font-size: ${textScale}em;">${cellText}</span>
                             ${arrowHtml}
                         </div>
                     `;
 
                     htmlText += `
                         <div class="cell cell-overlay">
-                            <span class="cell-text">${cellText}</span>
+                            <span class="cell-text" style="font-size: ${textScale}em;">${cellText}</span>
                         </div>
                     `;
                 }
@@ -563,6 +580,14 @@
 
             const ladders = parsePairs(laddersText);
             const snakes = parsePairs(snakesText);
+
+            // 計算蛇與梯子的圖形粗細縮放比例
+            const { cols, rows } = getGridSize();
+            const s = Math.max(0.3, Math.min(2.5, Math.min(10 / cols, 10 / rows)));
+            svgLayer.style.setProperty('--snake-w', `${12 * s}px`);
+            svgLayer.style.setProperty('--snake-out', `${18 * s}px`);
+            svgLayer.style.setProperty('--ladder-rail', `${6 * s}px`);
+            svgLayer.style.setProperty('--ladder-rung', `${4 * s}px`);
 
             const getCellCenter = (num) => {
                 const cells = document.querySelectorAll('#grid-base .cell');
@@ -593,30 +618,30 @@
                     let g = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
                     if (type === 'ladder') {
-                        g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, -25)`);
+                        g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, ${-25 * s})`);
                         
                         let r1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                        r1.setAttribute("x1", 0); r1.setAttribute("y1", -12); r1.setAttribute("x2", L); r1.setAttribute("y2", -12);
+                        r1.setAttribute("x1", 0); r1.setAttribute("y1", -12 * s); r1.setAttribute("x2", L); r1.setAttribute("y2", -12 * s);
                         r1.setAttribute("class", "ladder-rail");
                         g.appendChild(r1);
                         
                         let r2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                        r2.setAttribute("x1", 0); r2.setAttribute("y1", 12); r2.setAttribute("x2", L); r2.setAttribute("y2", 12);
+                        r2.setAttribute("x1", 0); r2.setAttribute("y1", 12 * s); r2.setAttribute("x2", L); r2.setAttribute("y2", 12 * s);
                         r2.setAttribute("class", "ladder-rail");
                         g.appendChild(r2);
                         
-                        for (let x = 15; x < L - 10; x += 25) {
+                        for (let x = 15 * s; x < L - 10 * s; x += 25 * s) {
                             let rung = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                            rung.setAttribute("x1", x); rung.setAttribute("y1", -12); rung.setAttribute("x2", x); rung.setAttribute("y2", 12);
+                            rung.setAttribute("x1", x); rung.setAttribute("y1", -12 * s); rung.setAttribute("x2", x); rung.setAttribute("y2", 12 * s);
                             rung.setAttribute("class", "ladder-rung");
                             g.appendChild(rung);
                         }
                     } else if (type === 'snake') {
-                        g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, 25)`);
+                        g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, ${25 * s})`);
 
                         let pathStr = `M 0 0`;
-                        let seg = 30;
-                        let amp = 15;
+                        let seg = 30 * s;
+                        let amp = 15 * s;
                         for (let x = 0; x < L; x += seg) {
                             let endX = Math.min(x + seg, L);
                             let midX = x + (endX - x) / 2;
@@ -635,32 +660,32 @@
                         g.appendChild(inPath);
 
                         let headOutline = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        headOutline.setAttribute("cx", 0); headOutline.setAttribute("cy", 0); headOutline.setAttribute("r", 15);
+                        headOutline.setAttribute("cx", 0); headOutline.setAttribute("cy", 0); headOutline.setAttribute("r", 15 * s);
                         headOutline.setAttribute("fill", "#558b2f");
                         g.appendChild(headOutline);
 
                         let head = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        head.setAttribute("cx", 0); head.setAttribute("cy", 0); head.setAttribute("r", 12);
+                        head.setAttribute("cx", 0); head.setAttribute("cy", 0); head.setAttribute("r", 12 * s);
                         head.setAttribute("fill", "#aed581");
                         g.appendChild(head);
 
                         let eye1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        eye1.setAttribute("cx", -4); eye1.setAttribute("cy", -5); eye1.setAttribute("r", 3);
+                        eye1.setAttribute("cx", -4 * s); eye1.setAttribute("cy", -5 * s); eye1.setAttribute("r", 3 * s);
                         eye1.setAttribute("fill", "white");
                         g.appendChild(eye1);
                         
                         let eye2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        eye2.setAttribute("cx", -4); eye2.setAttribute("cy", 5); eye2.setAttribute("r", 3);
+                        eye2.setAttribute("cx", -4 * s); eye2.setAttribute("cy", 5 * s); eye2.setAttribute("r", 3 * s);
                         eye2.setAttribute("fill", "white");
                         g.appendChild(eye2);
 
                         let pupil1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        pupil1.setAttribute("cx", -5); pupil1.setAttribute("cy", -5); pupil1.setAttribute("r", 1.5);
+                        pupil1.setAttribute("cx", -5 * s); pupil1.setAttribute("cy", -5 * s); pupil1.setAttribute("r", 1.5 * s);
                         pupil1.setAttribute("fill", "black");
                         g.appendChild(pupil1);
 
                         let pupil2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        pupil2.setAttribute("cx", -5); pupil2.setAttribute("cy", 5); pupil2.setAttribute("r", 1.5);
+                        pupil2.setAttribute("cx", -5 * s); pupil2.setAttribute("cy", 5 * s); pupil2.setAttribute("r", 1.5 * s);
                         pupil2.setAttribute("fill", "black");
                         g.appendChild(pupil2);
                     }
