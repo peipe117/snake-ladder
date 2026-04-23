@@ -28,11 +28,15 @@
 
         /* 網站頁首 */
         .app-header {
+            position: relative;
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            padding: 25px 0;
+            padding: 25px 20px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .app-header h1 {
@@ -40,6 +44,33 @@
             color: #d84315;
             font-size: 28px;
             text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
+        }
+
+        /* 語言切換選單 */
+        .lang-switcher {
+            position: absolute;
+            right: 20px;
+            top: 25px;
+        }
+
+        .lang-switcher select {
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.9);
+            font-weight: bold;
+            color: var(--text-main);
+            cursor: pointer;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .lang-switcher select:hover {
+            background: #fff;
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
         }
 
         /* 主要內容區 */
@@ -74,6 +105,8 @@
 
         @media (max-width: 768px) {
             .controls-grid { grid-template-columns: 1fr; }
+            .lang-switcher { position: relative; top: 0; right: 0; margin-bottom: 15px; }
+            .app-header { flex-direction: column-reverse; }
         }
 
         .input-group {
@@ -215,16 +248,16 @@
         .path-arrow {
             position: absolute;
             color: rgba(255, 126, 103, 0.9);
-            font-size: 22px;
+            font-size: var(--arrow-size, 22px);
             font-weight: bold;
             z-index: 5;
             pointer-events: none;
             text-shadow: 0 0 4px white, 0 0 4px white;
         }
-        .arrow-right { right: -18px; top: 50%; transform: translateY(-50%); }
-        .arrow-left { left: -18px; top: 50%; transform: translateY(-50%) rotate(180deg); }
-        .arrow-up { top: -18px; left: 50%; transform: translateX(-50%) rotate(-90deg); }
-        .arrow-down { bottom: -18px; left: 50%; transform: translateX(-50%) rotate(90deg); }
+        .arrow-right { right: var(--arrow-offset, -18px); top: 50%; transform: translateY(-50%); }
+        .arrow-left { left: var(--arrow-offset, -18px); top: 50%; transform: translateY(-50%) rotate(180deg); }
+        .arrow-up { top: var(--arrow-offset, -18px); left: 50%; transform: translateX(-50%) rotate(-90deg); }
+        .arrow-down { bottom: var(--arrow-offset, -18px); left: 50%; transform: translateX(-50%) rotate(90deg); }
 
         #grid-text { z-index: 3000; pointer-events: none; }
         .cell-overlay {
@@ -240,17 +273,17 @@
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 2000;
         }
-        .snake-path { fill: none; stroke: #aed581; stroke-width: 12; stroke-linecap: round; }
-        .snake-outline { fill: none; stroke: #558b2f; stroke-width: 18; stroke-linecap: round; }
-        .ladder-rail { stroke: #8d6e63; stroke-width: 6; stroke-linecap: round; }
-        .ladder-rung { stroke: #a1887f; stroke-width: 4; stroke-linecap: round; }
+        .snake-path { fill: none; stroke: #aed581; stroke-width: var(--snake-w, 12px); stroke-linecap: round; }
+        .snake-outline { fill: none; stroke: #558b2f; stroke-width: var(--snake-out, 18px); stroke-linecap: round; }
+        .ladder-rail { stroke: #8d6e63; stroke-width: var(--ladder-rail, 6px); stroke-linecap: round; }
+        .ladder-rung { stroke: #a1887f; stroke-width: var(--ladder-rung, 4px); stroke-linecap: round; }
 
         /* 遊戲圖版區塊 (A4) */
         .board-wrapper {
             width: 100%;
-            overflow-x: auto; /* 在小螢幕上可以滾動 */
+            overflow-x: auto;
             padding-bottom: 40px;
-            text-align: center; /* 幫助置中對齊，避免左側截斷 */
+            text-align: center;
         }
 
         #game-board-container {
@@ -268,7 +301,7 @@
             flex-direction: column;
             flex-shrink: 0;
             border: 1px solid #ddd;
-            text-align: left; /* 恢復內部元素靠左對齊 */
+            text-align: left;
             margin: 0 auto;
         }
 
@@ -282,7 +315,7 @@
         .cell {
             position: relative;
             display: flex; justify-content: center; align-items: center; text-align: center;
-            padding: 8px; font-size: 16px; font-weight: bold; color: var(--text-main);
+            padding: 8px; font-size: var(--base-font-size, 16px); font-weight: bold; color: var(--text-main);
             background: var(--cell-bg);
             backdrop-filter: blur(3px);
             border-radius: 8px; box-sizing: border-box;
@@ -292,7 +325,7 @@
         }
 
         .cell-number {
-            position: absolute; top: 4px; left: 6px; font-size: 12px; color: #888; font-weight: normal;
+            position: absolute; top: 4px; left: 6px; font-size: var(--num-font-size, 12px); color: #888; font-weight: normal;
         }
         .cell-text { z-index: 1; }
         .cell-start { background: #dcedc8; border-color: #8bc34a; }
@@ -308,10 +341,10 @@
             @page { size: A4 landscape; margin: 0; }
             body { 
                 background: white; padding: 0; margin: 0; 
-                -webkit-print-color-adjust: exact !important; /* 確保列印時保留所有精美的背景顏色 */
+                -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            .app-header, .controls, .app-footer { display: none !important; }
+            .app-header, .controls, .app-footer, .lang-switcher { display: none !important; }
             .app-main { padding: 0; max-width: none; display: block; }
             .board-wrapper { padding: 0; overflow: visible; display: block; }
             #game-board-container { 
@@ -320,13 +353,11 @@
                 margin: 0 !important;
             }
             .cell { 
-                /* 解決 PDF 產生時箭頭被吃掉的 Bug：列印時暫時關閉毛玻璃濾鏡 */
                 backdrop-filter: none !important; 
                 box-shadow: none !important;
-                /* 移除了原本醜醜的預設虛線，保留您選擇的漂亮邊框 */
             }
             .path-arrow {
-                z-index: 1000 !important; /* 強制提高箭頭在 PDF 列印時的圖層級別 */
+                z-index: 1000 !important;
             }
         }
     </style>
@@ -334,7 +365,14 @@
 <body>
 
     <header class="app-header">
-        <h1>🐍 蛇梯棋生成器 🪜</h1>
+        <h1 data-i18n="title">🐍 蛇梯棋生成器 🪜</h1>
+        <div class="lang-switcher">
+            <select id="lang-select" onchange="switchLanguage(this.value)">
+                <option value="zh-TW" selected>繁體中文</option>
+                <option value="zh-CN">简体中文</option>
+                <option value="en">English</option>
+            </select>
+        </div>
     </header>
 
     <main class="app-main">
@@ -342,51 +380,51 @@
             <div class="controls-grid">
                 <!-- 左側/上方欄位 -->
                 <div class="input-group">
-                    <label for="bg-upload">1. 上傳自訂背景圖（選填）</label>
+                    <label for="bg-upload" data-i18n="label1">1. 上傳自訂背景圖（選填）</label>
                     <div style="display: flex; gap: 10px; width: 100%;">
                         <input type="file" id="bg-upload" accept="image/*" style="flex-grow: 1;">
-                        <button id="btn-clear-bg" class="btn-clear-bg" onclick="clearBackground()">❌ 移除</button>
+                        <button id="btn-clear-bg" class="btn-clear-bg" onclick="clearBackground()" data-i18n="btnClear">❌ 移除</button>
                     </div>
                 </div>
                 
                 <div class="input-group">
-                    <label for="layout-style">2. 選擇路徑排列方式</label>
+                    <label for="layout-style" data-i18n="label2">2. 選擇路徑排列方式</label>
                     <select id="layout-style" onchange="generateGrid()">
-                        <option value="classic">經典 S 型緊密方格</option>
-                        <option value="organic" selected>🌿 自然手繪小徑 (推薦)</option>
-                        <option value="spiral">🌀 螺旋向內迷宮</option>
+                        <option value="classic" data-i18n="optClassic">經典 S 型緊密方格</option>
+                        <option value="organic" selected data-i18n="optOrganic">🌿 自然手繪小徑 (推薦)</option>
+                        <option value="spiral" data-i18n="optSpiral">🌀 螺旋向內迷宮</option>
                     </select>
                 </div>
 
                 <div class="input-group full-width">
-                    <label>3. 設定網格大小 (行 × 列)</label>
+                    <label data-i18n="label3">3. 設定網格大小 (行 × 列)</label>
                     <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="number" id="grid-cols" value="10" min="2" max="25" onchange="generateGrid()" title="左右有幾格"> 
-                        <span style="color: #7f8c8d; font-weight: bold;">行 × </span>
-                        <input type="number" id="grid-rows" value="10" min="2" max="25" onchange="generateGrid()" title="上下有幾格">
-                        <span style="color: #7f8c8d; font-weight: bold;">列</span>
+                        <input type="number" id="grid-cols" value="10" min="2" max="25" onchange="generateGrid()" data-i18n-title="titleCols" title="左右有幾格"> 
+                        <span style="color: #7f8c8d; font-weight: bold;" data-i18n="colText">行 × </span>
+                        <input type="number" id="grid-rows" value="10" min="2" max="25" onchange="generateGrid()" data-i18n-title="titleRows" title="上下有幾格">
+                        <span style="color: #7f8c8d; font-weight: bold;" data-i18n="rowText">列</span>
                     </div>
                 </div>
 
                 <div class="input-group full-width">
                     <label for="vocabulary">
-                        4. 填寫生詞與句型 (逗號或換行分隔)
+                        <span data-i18n="label4">4. 填寫生詞與句型 (逗號或換行分隔)</span>
                         <span id="word-count-display" style="color: #ff7e67;">(目前：0 個字)</span>
                     </label>
-                    <textarea id="vocabulary" placeholder="請在此貼上您的詞彙清單..." oninput="updateWordCount()"></textarea>
+                    <textarea id="vocabulary" data-i18n-placeholder="placeholder" placeholder="請在此貼上您的詞彙清單..." oninput="updateWordCount()"></textarea>
                 </div>
 
                 <div class="input-group">
                     <label for="ladders-input">
-                        5. 設定梯子 (起點-終點)
-                        <button class="btn-random" onclick="generateRandomConnections()" title="依格數自動隨機產生">🎲 隨機配置</button>
+                        <span data-i18n="label5">5. 設定梯子 (起點-終點)</span>
+                        <button class="btn-random" onclick="generateRandomConnections()" data-i18n-title="btnRandomTitle" title="依格數自動隨機產生" data-i18n="btnRandom">🎲 隨機配置</button>
                     </label>
                     <input type="text" id="ladders-input" value="4-25, 13-46, 33-49, 50-69, 42-63, 62-81, 74-92">
                 </div>
 
                 <div class="input-group">
                     <label for="snakes-input">
-                        6. 設定蛇 (蛇頭-蛇尾)
+                        <span data-i18n="label6">6. 設定蛇 (蛇頭-蛇尾)</span>
                         <span style="width: 70px;"></span> 
                     </label>
                     <input type="text" id="snakes-input" value="27-5, 40-3, 43-18, 54-31, 66-45, 76-58, 89-53, 99-41">
@@ -394,8 +432,8 @@
             </div>
 
             <div class="btn-container">
-                <button class="btn-generate" onclick="generateGrid()">✨ 套用並生成圖板</button>
-                <button class="btn-print" onclick="window.print()">🖨️ 列印 / 存成 PDF</button>
+                <button class="btn-generate" onclick="generateGrid()" data-i18n="btnGenerate">✨ 套用並生成圖板</button>
+                <button class="btn-print" onclick="window.print()" data-i18n="btnPrint">🖨️ 列印 / 存成 PDF</button>
             </div>
         </section>
 
@@ -414,17 +452,137 @@
         </section>
     </main>
 
-    <footer class="app-footer">
+    <footer class="app-footer" data-i18n="footer">
         Powered by Gemini | Sophia老師的AI練習本
     </footer>
 
     <script>
-        const defaultVocab = "起點, \n\n休息一次, \n\n終點";
+        // 字典資料庫
+        const i18nData = {
+            "zh-TW": {
+                title: "🐍 蛇梯棋生成器 🪜",
+                label1: "1. 上傳自訂背景圖（選填）",
+                btnClear: "❌ 移除",
+                label2: "2. 選擇路徑排列方式",
+                optClassic: "經典 S 型緊密方格",
+                optOrganic: "🌿 自然手繪小徑 (推薦)",
+                optSpiral: "🌀 螺旋向內迷宮",
+                label3: "3. 設定網格大小 (行 × 列)",
+                colText: "行 × ",
+                rowText: "列",
+                label4: "4. 填寫生詞與句型 (逗號或換行分隔)",
+                wordCount: "(目前：{n} 個字)",
+                placeholder: "請在此貼上您的詞彙清單...",
+                label5: "5. 設定梯子 (起點-終點)",
+                btnRandom: "🎲 隨機配置",
+                btnRandomTitle: "依格數自動隨機產生",
+                label6: "6. 設定蛇 (蛇頭-蛇尾)",
+                btnGenerate: "✨ 套用並生成圖板",
+                btnPrint: "🖨️ 列印 / 存成 PDF",
+                footer: "Powered by Gemini | Sophia老師的AI練習本",
+                defaultVocab: "起點, \n\n休息一次, \n\n終點",
+                titleCols: "左右有幾格",
+                titleRows: "上下有幾格"
+            },
+            "zh-CN": {
+                title: "🐍 蛇梯棋生成器 🪜",
+                label1: "1. 上传自定义背景图（选填）",
+                btnClear: "❌ 移除",
+                label2: "2. 选择路径排列方式",
+                optClassic: "经典 S 型紧密方格",
+                optOrganic: "🌿 自然手绘小径 (推荐)",
+                optSpiral: "🌀 螺旋向内迷宫",
+                label3: "3. 设置网格大小 (行 × 列)",
+                colText: "行 × ",
+                rowText: "列",
+                label4: "4. 填写生词与句型 (逗号或换行分隔)",
+                wordCount: "(目前：{n} 个字)",
+                placeholder: "请在此贴上您的词汇清单...",
+                label5: "5. 设置梯子 (起点-终点)",
+                btnRandom: "🎲 随机配置",
+                btnRandomTitle: "依格数自动随机产生",
+                label6: "6. 设置蛇 (蛇头-蛇尾)",
+                btnGenerate: "✨ 应用并生成图板",
+                btnPrint: "🖨️ 打印 / 存成 PDF",
+                footer: "Powered by Gemini | Sophia老师的AI练习本",
+                defaultVocab: "起点, \n\n休息一次, \n\n终点",
+                titleCols: "左右有几格",
+                titleRows: "上下有几格"
+            },
+            "en": {
+                title: "🐍 Snakes & Ladders Generator 🪜",
+                label1: "1. Custom Background (Optional)",
+                btnClear: "❌ Remove",
+                label2: "2. Choose Path Layout",
+                optClassic: "Classic S-Shape Grid",
+                optOrganic: "🌿 Organic Trail (Recommended)",
+                optSpiral: "🌀 Spiral Maze",
+                label3: "3. Grid Size (Cols × Rows)",
+                colText: "Cols × ",
+                rowText: "Rows",
+                label4: "4. Vocabulary List (Comma or newline separated)",
+                wordCount: "(Currently: {n} words)",
+                placeholder: "Paste your vocabulary list here...",
+                label5: "5. Ladders (Start-End)",
+                btnRandom: "🎲 Randomize",
+                btnRandomTitle: "Auto-generate based on grid size",
+                label6: "6. Snakes (Head-Tail)",
+                btnGenerate: "✨ Apply & Generate Board",
+                btnPrint: "🖨️ Print / Save PDF",
+                footer: "Powered by Gemini | Ms. Sophia's AI Workbook",
+                defaultVocab: "Start, \n\nMiss a turn, \n\nFinish",
+                titleCols: "Number of columns (left to right)",
+                titleRows: "Number of rows (top to bottom)"
+            }
+        };
 
+        let currentLang = "zh-TW";
+
+        // 語言切換核心函式
+        function switchLanguage(lang) {
+            const oldLang = currentLang;
+            currentLang = lang;
+            const t = i18nData[lang];
+
+            // 替換文件標題
+            document.title = lang === 'en' ? "Snakes & Ladders Generator" : (lang === 'zh-CN' ? "蛇梯棋生成器" : "蛇梯棋生成器");
+
+            // 替換所有具備 data-i18n 標籤的文字
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.innerText = t[key];
+            });
+
+            // 替換輸入框佔位符 (Placeholder)
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key]) el.setAttribute('placeholder', t[key]);
+            });
+
+            // 替換滑鼠提示 (Tooltip/Title)
+            document.querySelectorAll('[data-i18n-title]').forEach(el => {
+                const key = el.getAttribute('data-i18n-title');
+                if (t[key]) el.setAttribute('title', t[key]);
+            });
+
+            // 智慧處理預設生詞庫的翻譯：
+            // 如果老師還沒改動生詞庫，就把裡面的「起點/終點」跟著語言切換
+            const vocabInput = document.getElementById('vocabulary');
+            const oldDefault = i18nData[oldLang].defaultVocab;
+            if (vocabInput.value.trim() === oldDefault.trim() || vocabInput.value.trim() === "") {
+                vocabInput.value = t.defaultVocab;
+            }
+
+            updateWordCount();
+            generateGrid();
+        }
+
+        // 字數統計功能
         function updateWordCount() {
             let inputText = document.getElementById('vocabulary').value;
             let list = inputText.split(/[,，\n]/).map(item => item.trim()).filter(item => item !== "");
-            document.getElementById('word-count-display').innerText = `(目前：${list.length} 個字)`;
+            let t = i18nData[currentLang];
+            document.getElementById('word-count-display').innerText = t.wordCount.replace('{n}', list.length);
         }
 
         function getGridSize() {
@@ -776,7 +934,8 @@
             clearBtn.style.display = 'none';
         }
 
-        document.getElementById('vocabulary').value = defaultVocab;
+        // 初始化
+        document.getElementById('vocabulary').value = i18nData[currentLang].defaultVocab;
         updateWordCount();
         generateGrid();
     </script>
