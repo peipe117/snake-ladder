@@ -181,104 +181,48 @@
 
         button:active { transform: scale(0.97); }
 
-        .btn-generate { 
-            background-color: var(--secondary-color); 
-            color: #1b5e20; 
-            box-shadow: 0 4px 15px rgba(168,230,207,0.4);
-        }
+        .btn-generate { background-color: var(--secondary-color); color: #1b5e20; box-shadow: 0 4px 15px rgba(168,230,207,0.4); }
         .btn-generate:hover { background-color: #81c784; transform: translateY(-2px); }
 
-        .btn-print { 
-            background-color: var(--primary-color); 
-            color: white; 
-            box-shadow: 0 4px 15px rgba(255,126,103,0.4);
-        }
+        .btn-play { background-color: #64b5f6; color: white; box-shadow: 0 4px 15px rgba(100,181,246,0.4); }
+        .btn-play:hover { background-color: #42a5f5; transform: translateY(-2px); }
+
+        .btn-print { background-color: var(--primary-color); color: white; box-shadow: 0 4px 15px rgba(255,126,103,0.4); }
         .btn-print:hover { background-color: #ff6b52; transform: translateY(-2px); }
 
-        .btn-random {
-            background-color: #fff9c4;
-            color: #d84315;
-            padding: 6px 12px;
-            font-size: 13px;
-            border-radius: 8px;
-            border: 1px solid #ffe082;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
+        .btn-random { background-color: #fff9c4; color: #d84315; padding: 6px 12px; font-size: 13px; border-radius: 8px; border: 1px solid #ffe082; cursor: pointer; font-weight: bold; transition: all 0.2s; }
         .btn-random:hover { background-color: #fff59d; }
 
-        .btn-clear-bg {
-            background-color: #ffccbc;
-            color: #bf360c;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            white-space: nowrap;
-            display: none; 
-            transition: all 0.2s;
-        }
+        .btn-clear-bg { background-color: #ffccbc; color: #bf360c; padding: 10px 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 14px; white-space: nowrap; display: none; transition: all 0.2s; }
         .btn-clear-bg:hover { background-color: #ffab91; }
 
         /* 圖板排列樣式 */
         .grid-classic { gap: 2px; }
-        
         .grid-organic { gap: 16px; padding: 15px; }
-        .grid-organic .cell {
-            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; 
-            border: 2px solid #8d6e63;
-            background: rgba(255, 253, 240, 0.85);
-            box-shadow: 2px 4px 0px rgba(141, 110, 99, 0.15);
-            transition: transform 0.2s;
-        }
+        .grid-organic .cell { border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; border: 2px solid #8d6e63; background: rgba(255, 253, 240, 0.85); box-shadow: 2px 4px 0px rgba(141, 110, 99, 0.15); transition: transform 0.2s; }
         .grid-organic .cell:nth-child(even) { transform: rotate(1.5deg) translateY(3px); }
         .grid-organic .cell:nth-child(odd) { transform: rotate(-1.5deg) translateY(-3px); }
-        
         .grid-spiral { gap: 8px; padding: 10px; }
-        .grid-spiral .cell {
-            border-radius: 40px; 
-            border: 2px solid #bcaaa4;
-            background: rgba(255, 255, 255, 0.9);
-        }
+        .grid-spiral .cell { border-radius: 40px; border: 2px solid #bcaaa4; background: rgba(255, 255, 255, 0.9); }
 
         /* 箭頭與格層樣式 */
-        .path-arrow {
-            position: absolute;
-            color: rgba(255, 126, 103, 0.9);
-            font-size: var(--arrow-size, 22px);
-            font-weight: bold;
-            z-index: 5;
-            pointer-events: none;
-            text-shadow: 0 0 4px white, 0 0 4px white;
-        }
+        .path-arrow { position: absolute; color: rgba(255, 126, 103, 0.9); font-size: var(--arrow-size, 22px); font-weight: bold; z-index: 5; pointer-events: none; text-shadow: 0 0 4px white, 0 0 4px white; }
         .arrow-right { right: var(--arrow-offset, -18px); top: 50%; transform: translateY(-50%); }
         .arrow-left { left: var(--arrow-offset, -18px); top: 50%; transform: translateY(-50%) rotate(180deg); }
         .arrow-up { top: var(--arrow-offset, -18px); left: 50%; transform: translateX(-50%) rotate(-90deg); }
         .arrow-down { bottom: var(--arrow-offset, -18px); left: 50%; transform: translateX(-50%) rotate(90deg); }
 
         #grid-text { z-index: 3000; pointer-events: none; }
-        .cell-overlay {
-            background: transparent !important;
-            border-color: transparent !important;
-            box-shadow: none !important;
-            backdrop-filter: none !important;
-        }
+        .cell-overlay { background: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
 
         /* SVG 蛇與梯子 */
-        #svg-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 2000;
-        }
+        #svg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2000; }
         .snake-path { fill: none; stroke: #aed581; stroke-width: var(--snake-w, 12px); stroke-linecap: round; }
         .snake-outline { fill: none; stroke: #558b2f; stroke-width: var(--snake-out, 18px); stroke-linecap: round; }
         .ladder-rail { stroke: #8d6e63; stroke-width: var(--ladder-rail, 6px); stroke-linecap: round; }
         .ladder-rung { stroke: #a1887f; stroke-width: var(--ladder-rung, 4px); stroke-linecap: round; }
 
-        /* 遊戲圖版區塊 (A4) */
+        /* 遊戲圖版區塊 */
         .board-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -303,62 +247,152 @@
             border: 1px solid #ddd;
             text-align: left;
             margin: 0 auto;
+            transform-origin: center center;
         }
 
         .grid {
-            display: grid;
-            width: 100%; height: 100%;
-            position: absolute; top: 0; left: 0;
+            display: grid; width: 100%; height: 100%; position: absolute; top: 0; left: 0;
             padding: 5mm; box-sizing: border-box; gap: 2px;
         }
 
         .cell {
-            position: relative;
-            display: flex; justify-content: center; align-items: center; text-align: center;
+            position: relative; display: flex; justify-content: center; align-items: center; text-align: center;
             padding: 8px; font-size: var(--base-font-size, 16px); font-weight: bold; color: var(--text-main);
-            background: var(--cell-bg);
-            backdrop-filter: blur(3px);
-            border-radius: 8px; box-sizing: border-box;
+            background: var(--cell-bg); backdrop-filter: blur(3px); border-radius: 8px; box-sizing: border-box;
             box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0,0,0,0.05);
-            border: 2px solid rgba(0, 0, 0, 0.05);
-            word-break: break-word; line-height: 1.3;
+            border: 2px solid rgba(0, 0, 0, 0.05); word-break: break-word; line-height: 1.3;
         }
 
-        .cell-number {
-            position: absolute; top: 4px; left: 6px; font-size: var(--num-font-size, 12px); color: #888; font-weight: normal;
-        }
+        .cell-number { position: absolute; top: 4px; left: 6px; font-size: var(--num-font-size, 12px); color: #888; font-weight: normal; }
         .cell-text { z-index: 1; }
         .cell-start { background: #dcedc8; border-color: #8bc34a; }
         .cell-end { background: #ffcdd2; border-color: #e57373; }
 
-        /* 頁尾 */
-        .app-footer {
-            text-align: center; padding: 20px; color: var(--text-muted); font-size: 14px; margin-top: auto;
+        /* ================= 遊戲 UI 覆蓋層 (全螢幕模式) ================= */
+        #board-wrapper:fullscreen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            background: #2c3e50;
+            overflow: hidden;
+            padding: 0;
+            cursor: grab; /* 提示可拖曳圖板 */
         }
+
+        #board-wrapper:fullscreen:active {
+            cursor: grabbing;
+        }
+
+        #board-wrapper:fullscreen #game-board-container {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+            border: none;
+        }
+
+        #game-ui {
+            display: none;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 5000;
+            align-items: center;
+            gap: 20px;
+            backdrop-filter: blur(5px);
+            cursor: default; 
+        }
+
+        #board-wrapper:fullscreen #game-ui {
+            display: flex;
+        }
+
+        .player-turn {
+            font-size: 18px;
+            font-weight: 900;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .turn-color-dot {
+            width: 16px; height: 16px; border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-dice {
+            background: #ffeb3b; color: #f57f17; font-size: 22px; padding: 10px 20px;
+            border-radius: 30px; border: 2px solid #fbc02d; box-shadow: 0 4px 0 #fbc02d;
+            font-weight: 900; margin: 0 10px;
+        }
+        .btn-dice:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+        .btn-dice:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .dice-result {
+            font-size: 36px; font-weight: bold; width: 40px; text-align: center; color: #e74c3c;
+        }
+
+        /* 縮放控制按鈕 */
+        .zoom-controls {
+            display: flex;
+            gap: 8px;
+            margin-right: 10px;
+            border-left: 2px solid #eee;
+            padding-left: 20px;
+        }
+        .btn-zoom {
+            background: #f8fafc; color: #34495e; padding: 8px 12px; border-radius: 50%;
+            border: 2px solid #e0e6ed; font-size: 16px; width: 42px; height: 42px;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .btn-zoom:hover { background: #e2e8f0; border-color: #cbd5e1; }
+
+        .btn-exit-game {
+            background: #e74c3c; color: white; padding: 10px 20px; border-radius: 30px; font-size: 16px;
+        }
+        
+        /* 遊戲棋子 */
+        .pawn-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4000; pointer-events: none;
+        }
+        .pawn {
+            position: absolute;
+            width: var(--pawn-size, 30px); height: var(--pawn-size, 30px);
+            border-radius: 50%; border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 -4px 8px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translate(-50%, -50%); /* 中心點對齊 */
+            display: flex; justify-content: center; align-items: center;
+            color: white; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 14px;
+            pointer-events: auto; /* 允許滑鼠與觸控點擊拖曳 */
+            cursor: grab;
+        }
+        .pawn:active {
+            cursor: grabbing;
+        }
+
+        /* 頁尾 */
+        .app-footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 14px; margin-top: auto; }
 
         /* 列印模式設定 */
         @media print {
             @page { size: A4 landscape; margin: 0; }
-            body { 
-                background: white; padding: 0; margin: 0; 
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            .app-header, .controls, .app-footer, .lang-switcher { display: none !important; }
+            body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .app-header, .controls, .app-footer, .lang-switcher, #game-ui { display: none !important; }
             .app-main { padding: 0; max-width: none; display: block; }
             .board-wrapper { padding: 0; overflow: visible; display: block; }
             #game-board-container { 
                 box-shadow: none !important; border-radius: 0 !important; border: none !important;
-                width: 297mm !important; height: 210mm !important; page-break-inside: avoid;
-                margin: 0 !important;
+                width: 297mm !important; height: 210mm !important; page-break-inside: avoid; margin: 0 !important; transform: none !important;
             }
-            .cell { 
-                backdrop-filter: none !important; 
-                box-shadow: none !important;
-            }
-            .path-arrow {
-                z-index: 1000 !important;
-            }
+            .cell { backdrop-filter: none !important; box-shadow: none !important; }
+            .path-arrow { z-index: 1000 !important; }
+            .pawn { display: none !important; } /* 列印時不顯示棋子 */
         }
     </style>
 </head>
@@ -378,7 +412,6 @@
     <main class="app-main">
         <section class="controls">
             <div class="controls-grid">
-                <!-- 左側/上方欄位 -->
                 <div class="input-group">
                     <label for="bg-upload" data-i18n="label1">1. 上傳自訂背景圖（選填）</label>
                     <div style="display: flex; gap: 10px; width: 100%;">
@@ -433,21 +466,37 @@
 
             <div class="btn-container">
                 <button class="btn-generate" onclick="generateGrid()" data-i18n="btnGenerate">✨ 套用並生成圖板</button>
+                <button class="btn-play" onclick="enterGameMode()" data-i18n="btnPlay">🎮 開始線上遊戲 (全螢幕)</button>
                 <button class="btn-print" onclick="window.print()" data-i18n="btnPrint">🖨️ 列印 / 存成 PDF</button>
             </div>
         </section>
 
-        <section class="board-wrapper">
+        <section class="board-wrapper" id="board-wrapper">
             <div id="game-board-container">
-                <div class="grid" id="grid-base">
-                    <!-- 底層格子將由 JavaScript 動態生成 -->
-                </div>
-                <!-- SVG 繪圖層用來畫蛇和梯子 -->
+                <div class="grid" id="grid-base"></div>
                 <svg id="svg-layer"></svg>
-                <!-- 頂層文字網格，確保生詞永遠在最上面 -->
-                <div class="grid" id="grid-text">
-                    <!-- 頂層生詞將由 JavaScript 動態生成 -->
+                <div class="grid" id="grid-text"></div>
+                <!-- 遊戲棋子層 -->
+                <div id="pawn-layer" class="pawn-layer"></div>
+            </div>
+            
+            <!-- 全螢幕遊戲控制介面 -->
+            <div id="game-ui" onmousedown="event.stopPropagation()" onwheel="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                <div class="player-turn">
+                    <div id="turn-dot" class="turn-color-dot"></div>
+                    <span id="turn-text">玩家 1 的回合</span>
                 </div>
+                <button id="btn-dice" class="btn-dice" onclick="rollDice()" data-i18n="btnDice">🎲 擲骰子</button>
+                <div id="dice-result" class="dice-result"></div>
+                
+                <!-- 縮放控制區塊 -->
+                <div class="zoom-controls">
+                    <button class="btn-zoom" onclick="zoomBoard(0.1)" data-i18n-title="zoomIn" title="放大">➕</button>
+                    <button class="btn-zoom" onclick="zoomBoard(-0.1)" data-i18n-title="zoomOut" title="縮小">➖</button>
+                    <button class="btn-zoom" onclick="resetView()" data-i18n-title="zoomReset" title="重置視角">🔄</button>
+                </div>
+
+                <button class="btn-exit-game" onclick="exitGameMode()" data-i18n="btnExitGame">❌ 結束</button>
             </div>
         </section>
     </main>
@@ -478,11 +527,18 @@
                 btnRandomTitle: "依格數自動隨機產生",
                 label6: "6. 設定蛇 (蛇頭-蛇尾)",
                 btnGenerate: "✨ 套用並生成圖板",
+                btnPlay: "🎮 開始線上遊戲 (全螢幕)",
                 btnPrint: "🖨️ 列印 / 存成 PDF",
                 footer: "Powered by Gemini | Sophia老師的AI練習本",
                 defaultVocab: "起點, \n\n休息一次, \n\n終點",
                 titleCols: "左右有幾格",
-                titleRows: "上下有幾格"
+                titleRows: "上下有幾格",
+                promptPlayers: "請輸入玩家人數 (1-4)：",
+                turnText: "玩家 {n} 的回合",
+                btnDice: "🎲 擲骰子",
+                btnExitGame: "❌ 結束",
+                winMsg: "🎉 恭喜！玩家 {n} 抵達終點獲勝！",
+                zoomIn: "放大", zoomOut: "縮小", zoomReset: "重置視角"
             },
             "zh-CN": {
                 title: "🐍 蛇梯棋生成器 🪜",
@@ -503,11 +559,18 @@
                 btnRandomTitle: "依格数自动随机产生",
                 label6: "6. 设置蛇 (蛇头-蛇尾)",
                 btnGenerate: "✨ 应用并生成图板",
+                btnPlay: "🎮 开始线上游戏 (全屏)",
                 btnPrint: "🖨️ 打印 / 存成 PDF",
                 footer: "Powered by Gemini | Sophia老师的AI练习本",
                 defaultVocab: "起点, \n\n休息一次, \n\n终点",
                 titleCols: "左右有几格",
-                titleRows: "上下有几格"
+                titleRows: "上下有几格",
+                promptPlayers: "请输入玩家人数 (1-4)：",
+                turnText: "玩家 {n} 的回合",
+                btnDice: "🎲 掷骰子",
+                btnExitGame: "❌ 结束",
+                winMsg: "🎉 恭喜！玩家 {n} 抵达终点获胜！",
+                zoomIn: "放大", zoomOut: "缩小", zoomReset: "重置视角"
             },
             "en": {
                 title: "🐍 Snakes & Ladders Generator 🪜",
@@ -520,7 +583,7 @@
                 label3: "3. Grid Size (Cols × Rows)",
                 colText: "Cols × ",
                 rowText: "Rows",
-                label4: "4. Vocabulary List (Comma or newline separated)",
+                label4: "4. Vocabulary List (Comma/newline separated)",
                 wordCount: "(Currently: {n} words)",
                 placeholder: "Paste your vocabulary list here...",
                 label5: "5. Ladders (Start-End)",
@@ -528,56 +591,75 @@
                 btnRandomTitle: "Auto-generate based on grid size",
                 label6: "6. Snakes (Head-Tail)",
                 btnGenerate: "✨ Apply & Generate Board",
+                btnPlay: "🎮 Play Online (Fullscreen)",
                 btnPrint: "🖨️ Print / Save PDF",
                 footer: "Powered by Gemini | Ms. Sophia's AI Workbook",
                 defaultVocab: "Start, \n\nMiss a turn, \n\nFinish",
-                titleCols: "Number of columns (left to right)",
-                titleRows: "Number of rows (top to bottom)"
+                titleCols: "Number of columns",
+                titleRows: "Number of rows",
+                promptPlayers: "Enter number of players (1-4):",
+                turnText: "Player {n}'s Turn",
+                btnDice: "🎲 Roll Dice",
+                btnExitGame: "❌ Exit",
+                winMsg: "🎉 Congrats! Player {n} reached the finish!",
+                zoomIn: "Zoom In", zoomOut: "Zoom Out", zoomReset: "Reset View"
             }
         };
 
         let currentLang = "zh-TW";
+        let isGameActive = false;
+        let isAnimating = false;
+        let players = [];
+        let currentPlayerIndex = 0;
+        const pawnColors = ['#ff4757', '#1e90ff', '#2ed573', '#ffa502'];
 
-        // 語言切換核心函式
+        // --- 全螢幕拖曳縮放核心變數 ---
+        let currentScale = 1;
+        let currentTx = 0;
+        let currentTy = 0;
+        let isDraggingBoard = false;
+        let boardStartX, boardStartY;
+        let initialPinchDistance = null;
+        let initialScaleAtPinch = 1;
+
+        // --- 手動拖曳棋子變數 ---
+        let activePawn = null;
+        let pawnStartX = 0, pawnStartY = 0;
+        let pawnInitLeft = 0, pawnInitTop = 0;
+
         function switchLanguage(lang) {
             const oldLang = currentLang;
             currentLang = lang;
             const t = i18nData[lang];
 
-            // 替換文件標題
             document.title = lang === 'en' ? "Snakes & Ladders Generator" : (lang === 'zh-CN' ? "蛇梯棋生成器" : "蛇梯棋生成器");
 
-            // 替換所有具備 data-i18n 標籤的文字
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) el.innerText = t[key];
             });
 
-            // 替換輸入框佔位符 (Placeholder)
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (t[key]) el.setAttribute('placeholder', t[key]);
             });
 
-            // 替換滑鼠提示 (Tooltip/Title)
             document.querySelectorAll('[data-i18n-title]').forEach(el => {
                 const key = el.getAttribute('data-i18n-title');
                 if (t[key]) el.setAttribute('title', t[key]);
             });
 
-            // 智慧處理預設生詞庫的翻譯：
-            // 如果老師還沒改動生詞庫，就把裡面的「起點/終點」跟著語言切換
             const vocabInput = document.getElementById('vocabulary');
             const oldDefault = i18nData[oldLang].defaultVocab;
             if (vocabInput.value.trim() === oldDefault.trim() || vocabInput.value.trim() === "") {
                 vocabInput.value = t.defaultVocab;
             }
 
+            if (isGameActive) updateGameUI();
             updateWordCount();
             generateGrid();
         }
 
-        // 字數統計功能
         function updateWordCount() {
             let inputText = document.getElementById('vocabulary').value;
             let list = inputText.split(/[,，\n]/).map(item => item.trim()).filter(item => item !== "");
@@ -594,16 +676,13 @@
         function getVocabList(totalCells) {
             let inputText = document.getElementById('vocabulary').value;
             let list = inputText.split(/[,，\n]/).map(item => item.trim()).filter(item => item !== "");
-            if (list.length > totalCells) {
-                list = list.slice(0, totalCells);
-            }
+            if (list.length > totalCells) { list = list.slice(0, totalCells); }
             return list;
         }
 
         function getMatrix(style, rows, cols) {
             let matrix = Array(rows).fill(0).map(() => Array(cols).fill(-1));
             let total = rows * cols;
-
             if (style === 'classic' || style === 'organic') {
                 for (let visualRow = 0; visualRow < rows; visualRow++) {
                     let gameRow = rows - 1 - visualRow;
@@ -615,32 +694,39 @@
                 }
             } else if (style === 'spiral') {
                 let top = 0, bottom = rows - 1, left = 0, right = cols - 1;
-                let r = rows - 1, c = 0;
-                let dir = 'R'; 
+                let r = rows - 1, c = 0; let dir = 'R'; 
                 for (let i = 0; i < total; i++) {
                     matrix[r][c] = i;
-                    if (dir === 'R') {
-                        if (c === right) { dir = 'U'; bottom--; r--; } else { c++; }
-                    } else if (dir === 'U') {
-                        if (r === top) { dir = 'L'; right--; c--; } else { r--; }
-                    } else if (dir === 'L') {
-                        if (c === left) { dir = 'D'; top++; r++; } else { c--; }
-                    } else if (dir === 'D') {
-                        if (r === bottom) { dir = 'R'; left++; c++; } else { r++; }
-                    }
+                    if (dir === 'R') { if (c === right) { dir = 'U'; bottom--; r--; } else { c++; } } 
+                    else if (dir === 'U') { if (r === top) { dir = 'L'; right--; c--; } else { r--; } } 
+                    else if (dir === 'L') { if (c === left) { dir = 'D'; top++; r++; } else { c--; } } 
+                    else if (dir === 'D') { if (r === bottom) { dir = 'R'; left++; c++; } else { r++; } }
                 }
             }
             return matrix;
         }
 
         function getNextCoords(matrix, nextIndex, rows, cols) {
-            for(let r = 0; r < rows; r++){
-                for(let c = 0; c < cols; c++){
+            for(let r = 0; r < rows; r++) {
+                for(let c = 0; c < cols; c++) {
                     if(matrix[r][c] === nextIndex) return {r, c};
                 }
             }
             return null;
         }
+
+        const getCellCenter = (num) => {
+            const cells = document.querySelectorAll('#grid-base .cell');
+            for (let cell of cells) {
+                if (cell.querySelector('.cell-number').textContent == num) {
+                    return {
+                        x: cell.offsetLeft + cell.offsetWidth / 2,
+                        y: cell.offsetTop + cell.offsetHeight / 2
+                    };
+                }
+            }
+            return null;
+        };
 
         function generateGrid() {
             const { cols, rows, total } = getGridSize();
@@ -649,11 +735,11 @@
             const gridText = document.getElementById('grid-text');
             const style = document.getElementById('layout-style').value;
             
-            // 動態計算整體基礎字體與箭頭大小
             const boardContainer = document.getElementById('game-board-container');
             const baseFontSize = Math.min(260 / cols, 190 / rows);
             boardContainer.style.setProperty('--base-font-size', `${baseFontSize}px`);
             boardContainer.style.setProperty('--num-font-size', `${Math.max(9, baseFontSize * 0.55)}px`);
+            boardContainer.style.setProperty('--pawn-size', `${Math.max(20, baseFontSize * 1.5)}px`);
             
             const arrowSize = Math.max(10, baseFontSize * 1.2);
             boardContainer.style.setProperty('--arrow-size', `${arrowSize}px`);
@@ -668,20 +754,17 @@
             gridText.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
             
             let matrix = getMatrix(style, rows, cols);
-            let htmlBase = '';
-            let htmlText = '';
+            let htmlBase = ''; let htmlText = '';
             
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
                     let index = matrix[r][c];
                     let cellNumber = index + 1;
-                    
                     let cellText = vocabList[index] || " ";
                     let extraClass = "";
                     if (cellNumber === 1) extraClass = " cell-start";
                     if (cellNumber === total) extraClass = " cell-end";
 
-                    // 針對個別超長單字再次進行微縮放
                     let charCount = cellText.length;
                     let textScale = 1;
                     if (charCount > 8) textScale = 0.65;
@@ -692,54 +775,34 @@
                     if (style !== 'classic' && index < total - 1) {
                         let nextCoords = getNextCoords(matrix, index + 1, rows, cols);
                         if (nextCoords) {
-                            let dr = nextCoords.r - r;
-                            let dc = nextCoords.c - c;
+                            let dr = nextCoords.r - r; let dc = nextCoords.c - c;
                             let arrowClass = '';
                             if (dc === 1) arrowClass = 'arrow-right';
                             else if (dc === -1) arrowClass = 'arrow-left';
                             else if (dr === -1) arrowClass = 'arrow-up';
                             else if (dr === 1) arrowClass = 'arrow-down';
-                            
-                            if (arrowClass) {
-                                arrowHtml = `<span class="path-arrow ${arrowClass}">➔</span>`;
-                            }
+                            if (arrowClass) arrowHtml = `<span class="path-arrow ${arrowClass}">➔</span>`;
                         }
                     }
 
-                    htmlBase += `
-                        <div class="cell${extraClass}" style="z-index: ${1000 - index};">
-                            <span class="cell-number">${cellNumber}</span>
-                            <span class="cell-text" style="visibility: hidden; font-size: ${textScale}em;">${cellText}</span>
-                            ${arrowHtml}
-                        </div>
-                    `;
-
-                    htmlText += `
-                        <div class="cell cell-overlay">
-                            <span class="cell-text" style="font-size: ${textScale}em;">${cellText}</span>
-                        </div>
-                    `;
+                    htmlBase += `<div class="cell${extraClass}" style="z-index: ${1000 - index};"><span class="cell-number">${cellNumber}</span><span class="cell-text" style="visibility: hidden; font-size: ${textScale}em;">${cellText}</span>${arrowHtml}</div>`;
+                    htmlText += `<div class="cell cell-overlay"><span class="cell-text" style="font-size: ${textScale}em;">${cellText}</span></div>`;
                 }
             }
             gridBase.innerHTML = htmlBase;
             gridText.innerHTML = htmlText;
             
             setTimeout(drawConnections, 50);
+            if (isGameActive) setTimeout(updatePawnsPosition, 100);
         }
 
         function drawConnections() {
             const svgLayer = document.getElementById('svg-layer');
             svgLayer.innerHTML = '';
-
-            const laddersText = document.getElementById('ladders-input').value;
-            const snakesText = document.getElementById('snakes-input').value;
-
             const parsePairs = (str) => str.split(/[,，]/).map(s => s.trim().split('-').map(Number)).filter(p => p.length === 2 && !isNaN(p[0]) && !isNaN(p[1]));
+            const ladders = parsePairs(document.getElementById('ladders-input').value);
+            const snakes = parsePairs(document.getElementById('snakes-input').value);
 
-            const ladders = parsePairs(laddersText);
-            const snakes = parsePairs(snakesText);
-
-            // 計算蛇與梯子的圖形粗細縮放比例
             const { cols, rows } = getGridSize();
             const s = Math.max(0.3, Math.min(2.5, Math.min(10 / cols, 10 / rows)));
             svgLayer.style.setProperty('--snake-w', `${12 * s}px`);
@@ -747,29 +810,11 @@
             svgLayer.style.setProperty('--ladder-rail', `${6 * s}px`);
             svgLayer.style.setProperty('--ladder-rung', `${4 * s}px`);
 
-            const getCellCenter = (num) => {
-                const cells = document.querySelectorAll('#grid-base .cell');
-                for (let cell of cells) {
-                    if (cell.querySelector('.cell-number').textContent == num) {
-                        const rect = cell.getBoundingClientRect();
-                        const containerRect = document.getElementById('game-board-container').getBoundingClientRect();
-                        return {
-                            x: rect.left - containerRect.left + rect.width / 2,
-                            y: rect.top - containerRect.top + rect.height / 2
-                        };
-                    }
-                }
-                return null;
-            };
-
             const drawSVG = (pairs, type) => {
                 pairs.forEach(([start, end]) => {
-                    const pt1 = getCellCenter(start);
-                    const pt2 = getCellCenter(end);
+                    const pt1 = getCellCenter(start); const pt2 = getCellCenter(end);
                     if (!pt1 || !pt2) return;
-
-                    const dx = pt2.x - pt1.x;
-                    const dy = pt2.y - pt1.y;
+                    const dx = pt2.x - pt1.x; const dy = pt2.y - pt1.y;
                     const L = Math.sqrt(dx*dx + dy*dy);
                     const angle = Math.atan2(dy, dx) * 180 / Math.PI;
 
@@ -777,95 +822,55 @@
 
                     if (type === 'ladder') {
                         g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, ${-25 * s})`);
-                        
                         let r1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         r1.setAttribute("x1", 0); r1.setAttribute("y1", -12 * s); r1.setAttribute("x2", L); r1.setAttribute("y2", -12 * s);
-                        r1.setAttribute("class", "ladder-rail");
-                        g.appendChild(r1);
-                        
+                        r1.setAttribute("class", "ladder-rail"); g.appendChild(r1);
                         let r2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         r2.setAttribute("x1", 0); r2.setAttribute("y1", 12 * s); r2.setAttribute("x2", L); r2.setAttribute("y2", 12 * s);
-                        r2.setAttribute("class", "ladder-rail");
-                        g.appendChild(r2);
-                        
+                        r2.setAttribute("class", "ladder-rail"); g.appendChild(r2);
                         for (let x = 15 * s; x < L - 10 * s; x += 25 * s) {
                             let rung = document.createElementNS("http://www.w3.org/2000/svg", "line");
                             rung.setAttribute("x1", x); rung.setAttribute("y1", -12 * s); rung.setAttribute("x2", x); rung.setAttribute("y2", 12 * s);
-                            rung.setAttribute("class", "ladder-rung");
-                            g.appendChild(rung);
+                            rung.setAttribute("class", "ladder-rung"); g.appendChild(rung);
                         }
                     } else if (type === 'snake') {
                         g.setAttribute("transform", `translate(${pt1.x}, ${pt1.y}) rotate(${angle}) translate(0, ${25 * s})`);
-
-                        let pathStr = `M 0 0`;
-                        let seg = 30 * s;
-                        let amp = 15 * s;
+                        let pathStr = `M 0 0`; let seg = 30 * s; let amp = 15 * s;
                         for (let x = 0; x < L; x += seg) {
-                            let endX = Math.min(x + seg, L);
-                            let midX = x + (endX - x) / 2;
+                            let endX = Math.min(x + seg, L); let midX = x + (endX - x) / 2;
                             let sign = (x / seg) % 2 === 0 ? 1 : -1;
                             pathStr += ` Q ${midX} ${amp * sign}, ${endX} 0`;
                         }
-                        
                         let outPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        outPath.setAttribute("d", pathStr);
-                        outPath.setAttribute("class", "snake-outline");
-                        g.appendChild(outPath);
-
+                        outPath.setAttribute("d", pathStr); outPath.setAttribute("class", "snake-outline"); g.appendChild(outPath);
                         let inPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                        inPath.setAttribute("d", pathStr);
-                        inPath.setAttribute("class", "snake-path");
-                        g.appendChild(inPath);
-
+                        inPath.setAttribute("d", pathStr); inPath.setAttribute("class", "snake-path"); g.appendChild(inPath);
                         let headOutline = document.createElementNS("http://www.w3.org/2000/svg", "circle");
                         headOutline.setAttribute("cx", 0); headOutline.setAttribute("cy", 0); headOutline.setAttribute("r", 15 * s);
-                        headOutline.setAttribute("fill", "#558b2f");
-                        g.appendChild(headOutline);
-
+                        headOutline.setAttribute("fill", "#558b2f"); g.appendChild(headOutline);
                         let head = document.createElementNS("http://www.w3.org/2000/svg", "circle");
                         head.setAttribute("cx", 0); head.setAttribute("cy", 0); head.setAttribute("r", 12 * s);
-                        head.setAttribute("fill", "#aed581");
-                        g.appendChild(head);
-
+                        head.setAttribute("fill", "#aed581"); g.appendChild(head);
                         let eye1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        eye1.setAttribute("cx", -4 * s); eye1.setAttribute("cy", -5 * s); eye1.setAttribute("r", 3 * s);
-                        eye1.setAttribute("fill", "white");
-                        g.appendChild(eye1);
-                        
+                        eye1.setAttribute("cx", -4 * s); eye1.setAttribute("cy", -5 * s); eye1.setAttribute("r", 3 * s); eye1.setAttribute("fill", "white"); g.appendChild(eye1);
                         let eye2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        eye2.setAttribute("cx", -4 * s); eye2.setAttribute("cy", 5 * s); eye2.setAttribute("r", 3 * s);
-                        eye2.setAttribute("fill", "white");
-                        g.appendChild(eye2);
-
+                        eye2.setAttribute("cx", -4 * s); eye2.setAttribute("cy", 5 * s); eye2.setAttribute("r", 3 * s); eye2.setAttribute("fill", "white"); g.appendChild(eye2);
                         let pupil1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        pupil1.setAttribute("cx", -5 * s); pupil1.setAttribute("cy", -5 * s); pupil1.setAttribute("r", 1.5 * s);
-                        pupil1.setAttribute("fill", "black");
-                        g.appendChild(pupil1);
-
+                        pupil1.setAttribute("cx", -5 * s); pupil1.setAttribute("cy", -5 * s); pupil1.setAttribute("r", 1.5 * s); pupil1.setAttribute("fill", "black"); g.appendChild(pupil1);
                         let pupil2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        pupil2.setAttribute("cx", -5 * s); pupil2.setAttribute("cy", 5 * s); pupil2.setAttribute("r", 1.5 * s);
-                        pupil2.setAttribute("fill", "black");
-                        g.appendChild(pupil2);
+                        pupil2.setAttribute("cx", -5 * s); pupil2.setAttribute("cy", 5 * s); pupil2.setAttribute("r", 1.5 * s); pupil2.setAttribute("fill", "black"); g.appendChild(pupil2);
                     }
                     svgLayer.appendChild(g);
                 });
             }
-
-            drawSVG(ladders, 'ladder');
-            drawSVG(snakes, 'snake');
+            drawSVG(ladders, 'ladder'); drawSVG(snakes, 'snake');
         }
-
-        window.addEventListener('resize', () => {
-            setTimeout(drawConnections, 100);
-        });
 
         function generateRandomConnections() {
             const { cols, total } = getGridSize();
             const pairCount = Math.max(1, Math.floor(total / 12)); 
-            
             let usedCells = new Set([1, total]);
-            let ladders = [];
-            let snakes = [];
+            let ladders = []; let snakes = [];
 
             function getValidPair(isSnake) {
                 let attempts = 0;
@@ -873,39 +878,383 @@
                     attempts++;
                     let c1 = Math.floor(Math.random() * (total - 2)) + 2; 
                     let c2 = Math.floor(Math.random() * (total - 2)) + 2;
-                    
-                    if (c1 === c2) continue;
-                    if (usedCells.has(c1) || usedCells.has(c2)) continue;
-                    if (Math.abs(c1 - c2) < cols) continue;
-                    
-                    usedCells.add(c1);
-                    usedCells.add(c2);
-                    
-                    if (isSnake) {
-                        return [Math.max(c1, c2), Math.min(c1, c2)];
-                    } else {
-                        return [Math.min(c1, c2), Math.max(c1, c2)];
-                    }
+                    if (c1 === c2 || usedCells.has(c1) || usedCells.has(c2) || Math.abs(c1 - c2) < cols) continue;
+                    usedCells.add(c1); usedCells.add(c2);
+                    return isSnake ? [Math.max(c1, c2), Math.min(c1, c2)] : [Math.min(c1, c2), Math.max(c1, c2)];
                 }
                 return null;
             }
-
-            for (let i = 0; i < pairCount; i++) {
-                let pair = getValidPair(false);
-                if (pair) ladders.push(`${pair[0]}-${pair[1]}`);
-            }
-
-            for (let i = 0; i < pairCount; i++) {
-                let pair = getValidPair(true);
-                if (pair) snakes.push(`${pair[0]}-${pair[1]}`);
-            }
-
+            for (let i = 0; i < pairCount; i++) { let p = getValidPair(false); if(p) ladders.push(`${p[0]}-${p[1]}`); }
+            for (let i = 0; i < pairCount; i++) { let p = getValidPair(true); if(p) snakes.push(`${p[0]}-${p[1]}`); }
             document.getElementById('ladders-input').value = ladders.join(', ');
             document.getElementById('snakes-input').value = snakes.join(', ');
-
             drawConnections();
         }
 
+        // ================= 全螢幕圖板拖曳與縮放邏輯 =================
+        function updateBoardTransform() {
+            const board = document.getElementById('game-board-container');
+            if (document.fullscreenElement) {
+                board.style.transform = `translate(${currentTx}px, ${currentTy}px) scale(${currentScale})`;
+            } else {
+                board.style.transform = 'none';
+            }
+        }
+
+        function zoomBoard(delta) {
+            currentScale += delta;
+            currentScale = Math.max(0.2, Math.min(currentScale, 4)); 
+            updateBoardTransform();
+        }
+
+        function resetView() {
+            const board = document.getElementById('game-board-container');
+            currentTx = 0;
+            currentTy = 0;
+            const screenW = window.innerWidth;
+            const screenH = window.innerHeight;
+            const uiHeight = 120;
+            currentScale = Math.min((screenW - 40) / board.offsetWidth, (screenH - uiHeight) / board.offsetHeight);
+            updateBoardTransform();
+        }
+
+        function handleFullscreenScaling() {
+            if (document.fullscreenElement) {
+                resetView();
+            } else {
+                document.getElementById('game-board-container').style.transform = 'none';
+                if (isGameActive) exitGameMode();
+            }
+            setTimeout(drawConnections, 100);
+            if (isGameActive) setTimeout(updatePawnsPosition, 100);
+        }
+
+        window.addEventListener('resize', () => { if (document.fullscreenElement) resetView(); });
+        document.addEventListener('fullscreenchange', handleFullscreenScaling);
+
+        const wrapper = document.getElementById('board-wrapper');
+        
+        wrapper.addEventListener('mousedown', (e) => {
+            // 如果點擊到控制介面，或點擊到「棋子(pawn)」，就不觸發圖板拖曳
+            if (!document.fullscreenElement || e.target.closest('#game-ui') || e.target.classList.contains('pawn')) return;
+            isDraggingBoard = true;
+            boardStartX = e.clientX - currentTx;
+            boardStartY = e.clientY - currentTy;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (activePawn) return; // 正在拖曳棋子時，不移動圖板
+            if (!isDraggingBoard || !document.fullscreenElement) return;
+            currentTx = e.clientX - boardStartX;
+            currentTy = e.clientY - boardStartY;
+            updateBoardTransform();
+        });
+
+        window.addEventListener('mouseup', () => { isDraggingBoard = false; });
+
+        wrapper.addEventListener('wheel', (e) => {
+            if (!document.fullscreenElement || e.target.closest('#game-ui')) return;
+            e.preventDefault();
+            const zoomSensitivity = 0.0015;
+            currentScale -= e.deltaY * zoomSensitivity;
+            currentScale = Math.max(0.2, Math.min(currentScale, 4));
+            updateBoardTransform();
+        }, { passive: false });
+
+        wrapper.addEventListener('touchstart', (e) => {
+            if (!document.fullscreenElement || e.target.closest('#game-ui') || e.target.classList.contains('pawn')) return;
+            if (e.touches.length === 1) {
+                isDraggingBoard = true;
+                boardStartX = e.touches[0].clientX - currentTx;
+                boardStartY = e.touches[0].clientY - currentTy;
+            } else if (e.touches.length === 2) {
+                isDraggingBoard = false;
+                initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                initialScaleAtPinch = currentScale;
+            }
+        }, {passive: false});
+
+        wrapper.addEventListener('touchmove', (e) => {
+            if (!document.fullscreenElement || e.target.closest('#game-ui') || activePawn) return;
+            e.preventDefault(); 
+            if (isDraggingBoard && e.touches.length === 1) {
+                currentTx = e.touches[0].clientX - boardStartX;
+                currentTy = e.touches[0].clientY - boardStartY;
+                updateBoardTransform();
+            } else if (e.touches.length === 2 && initialPinchDistance) {
+                const currentDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                currentScale = initialScaleAtPinch * (currentDistance / initialPinchDistance);
+                currentScale = Math.max(0.2, Math.min(currentScale, 4));
+                updateBoardTransform();
+            }
+        }, {passive: false});
+
+        wrapper.addEventListener('touchend', () => { isDraggingBoard = false; initialPinchDistance = null; });
+
+
+        // ================= 手動拖曳棋子邏輯 (Pawn Drag) =================
+        function startDragPawn(e, clientX, clientY) {
+            if (!document.fullscreenElement) return;
+            if (e.target.classList.contains('pawn')) {
+                e.stopPropagation();
+                activePawn = e.target;
+                activePawn.style.transition = 'none'; // 移除動畫讓拖曳滑順
+                activePawn.style.zIndex = '5000';     // 拖曳時拉到最上層
+                pawnStartX = clientX;
+                pawnStartY = clientY;
+                pawnInitLeft = parseFloat(activePawn.style.left);
+                pawnInitTop = parseFloat(activePawn.style.top);
+            }
+        }
+
+        function moveDragPawn(e, clientX, clientY) {
+            if (activePawn && document.fullscreenElement) {
+                e.preventDefault();
+                e.stopPropagation();
+                // 計算滑鼠移動距離，需除以圖板目前的縮放比例
+                let dx = (clientX - pawnStartX) / currentScale;
+                let dy = (clientY - pawnStartY) / currentScale;
+                activePawn.style.left = `${pawnInitLeft + dx}px`;
+                activePawn.style.top = `${pawnInitTop + dy}px`;
+            }
+        }
+
+        async function endDragPawn(e) {
+            if (activePawn && document.fullscreenElement) {
+                let pawnId = parseInt(activePawn.id.replace('pawn-', ''));
+                let player = players.find(p => p.id === pawnId);
+                
+                let dropX = parseFloat(activePawn.style.left);
+                let dropY = parseFloat(activePawn.style.top);
+
+                const { total } = getGridSize();
+                let closestCell = player.pos;
+                let minDistance = Infinity;
+
+                // 找尋距離放開位置最近的格子
+                for (let i = 1; i <= total; i++) {
+                    let center = getCellCenter(i);
+                    if (center) {
+                        let dist = Math.hypot(center.x - dropX, center.y - dropY);
+                        if (dist < minDistance) {
+                            minDistance = dist;
+                            closestCell = i;
+                        }
+                    }
+                }
+
+                // 更新玩家位置
+                player.pos = closestCell;
+                activePawn.style.transition = ''; // 恢復原本的平滑移動動畫
+                activePawn.style.zIndex = '';
+                activePawn = null;
+
+                // 重新定位所有棋子，確保同一格的棋子依然會完美錯開
+                updatePawnsPosition();
+
+                // 延遲等待吸附動畫完成後，檢查是否掉進蛇梯機關
+                await new Promise(r => setTimeout(r, 400));
+                
+                const parsePairs = (str) => str.split(/[,，]/).map(s => s.trim().split('-').map(Number)).filter(p => p.length === 2 && !isNaN(p[0]) && !isNaN(p[1]));
+                const ladders = parsePairs(document.getElementById('ladders-input').value);
+                const snakes = parsePairs(document.getElementById('snakes-input').value);
+                
+                let jumped = false;
+                for (let [start, end] of ladders) {
+                    if (player.pos === start) { player.pos = end; jumped = true; break; }
+                }
+                if (!jumped) {
+                    for (let [start, end] of snakes) {
+                        if (player.pos === start) { player.pos = end; jumped = true; break; }
+                    }
+                }
+                
+                if (jumped) {
+                    updatePawnsPosition();
+                    await new Promise(r => setTimeout(r, 500));
+                }
+
+                // 檢查是否手動移動抵達終點
+                if (player.pos >= total) {
+                    let t = i18nData[currentLang];
+                    setTimeout(() => alert(t.winMsg.replace('{n}', player.id)), 100);
+                }
+            }
+        }
+
+        // 綁定棋子的滑鼠與觸控拖曳事件
+        const pawnLayer = document.getElementById('pawn-layer');
+        pawnLayer.addEventListener('mousedown', (e) => startDragPawn(e, e.clientX, e.clientY));
+        window.addEventListener('mousemove', (e) => moveDragPawn(e, e.clientX, e.clientY));
+        window.addEventListener('mouseup', endDragPawn);
+
+        pawnLayer.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) startDragPawn(e, e.touches[0].clientX, e.touches[0].clientY);
+        }, {passive: false});
+        window.addEventListener('touchmove', (e) => {
+            if (activePawn && e.touches.length === 1) moveDragPawn(e, e.touches[0].clientX, e.touches[0].clientY);
+        }, {passive: false});
+        window.addEventListener('touchend', endDragPawn);
+
+
+        // ================= 線上遊戲模式邏輯 =================
+        function enterGameMode() {
+            let t = i18nData[currentLang];
+            let count = prompt(t.promptPlayers, "2");
+            if (count === null) return; 
+            count = parseInt(count);
+            if (isNaN(count) || count < 1 || count > 4) count = 2;
+
+            players = Array.from({length: count}, (_, i) => ({ id: i+1, pos: 1, color: pawnColors[i] }));
+            currentPlayerIndex = 0;
+            isGameActive = true;
+            isAnimating = false;
+            document.getElementById('dice-result').innerText = "";
+
+            renderPawns();
+            updateGameUI();
+
+            if (wrapper.requestFullscreen) {
+                wrapper.requestFullscreen().catch(err => {
+                    console.log(`Fullscreen error: ${err.message}`);
+                });
+            }
+        }
+
+        function exitGameMode() {
+            isGameActive = false;
+            document.getElementById('pawn-layer').innerHTML = '';
+            if (document.fullscreenElement) document.exitFullscreen();
+        }
+
+        function renderPawns() {
+            const layer = document.getElementById('pawn-layer');
+            layer.innerHTML = '';
+            players.forEach(p => {
+                let div = document.createElement('div');
+                div.className = 'pawn';
+                div.id = `pawn-${p.id}`;
+                div.style.backgroundColor = p.color;
+                div.innerText = p.id;
+                layer.appendChild(div);
+            });
+            updatePawnsPosition();
+        }
+
+        function updatePawnsPosition() {
+            let posMap = {};
+            players.forEach(p => {
+                if (!posMap[p.pos]) posMap[p.pos] = [];
+                posMap[p.pos].push(p);
+            });
+
+            const { cols, rows } = getGridSize();
+            const s = Math.max(0.5, Math.min(1.5, Math.min(10 / cols, 10 / rows)));
+            const offsetDist = 8 * s;
+
+            for (let pos in posMap) {
+                let occupants = posMap[pos];
+                let center = getCellCenter(pos);
+                if (!center) continue;
+
+                occupants.forEach((p, index) => {
+                    let pawnEl = document.getElementById(`pawn-${p.id}`);
+                    if (!pawnEl) return;
+                    
+                    let dx = 0, dy = 0;
+                    if (occupants.length === 2) {
+                        dx = index === 0 ? -offsetDist : offsetDist;
+                    } else if (occupants.length === 3) {
+                        if (index === 0) { dx = -offsetDist; dy = offsetDist; }
+                        else if (index === 1) { dx = offsetDist; dy = offsetDist; }
+                        else { dy = -offsetDist; }
+                    } else if (occupants.length === 4) {
+                        dx = index % 2 === 0 ? -offsetDist : offsetDist;
+                        dy = index < 2 ? -offsetDist : offsetDist;
+                    }
+
+                    pawnEl.style.left = `${center.x + dx}px`;
+                    pawnEl.style.top = `${center.y + dy}px`;
+                });
+            }
+        }
+
+        function updateGameUI() {
+            let t = i18nData[currentLang];
+            let p = players[currentPlayerIndex];
+            document.getElementById('turn-text').innerText = t.turnText.replace('{n}', p.id);
+            document.getElementById('turn-dot').style.backgroundColor = p.color;
+        }
+
+        async function rollDice() {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            const btn = document.getElementById('btn-dice');
+            const resultDiv = document.getElementById('dice-result');
+            btn.disabled = true;
+
+            let steps = 0;
+            let rollInterval = setInterval(() => {
+                resultDiv.innerText = Math.floor(Math.random() * 6) + 1;
+            }, 50);
+
+            await new Promise(r => setTimeout(r, 600));
+            clearInterval(rollInterval);
+            
+            steps = Math.floor(Math.random() * 6) + 1;
+            resultDiv.innerText = steps;
+
+            await new Promise(r => setTimeout(r, 500)); 
+
+            let p = players[currentPlayerIndex];
+            let { total } = getGridSize();
+
+            for (let i = 0; i < steps; i++) {
+                if (p.pos < total) {
+                    p.pos++;
+                    updatePawnsPosition();
+                    await new Promise(r => setTimeout(r, 300));
+                }
+            }
+
+            const parsePairs = (str) => str.split(/[,，]/).map(s => s.trim().split('-').map(Number)).filter(p => p.length === 2 && !isNaN(p[0]) && !isNaN(p[1]));
+            const ladders = parsePairs(document.getElementById('ladders-input').value);
+            const snakes = parsePairs(document.getElementById('snakes-input').value);
+            
+            let jumped = false;
+            for (let [start, end] of ladders) {
+                if (p.pos === start) { p.pos = end; jumped = true; break; }
+            }
+            if (!jumped) {
+                for (let [start, end] of snakes) {
+                    if (p.pos === start) { p.pos = end; jumped = true; break; }
+                }
+            }
+
+            if (jumped) {
+                await new Promise(r => setTimeout(r, 300));
+                updatePawnsPosition();
+                await new Promise(r => setTimeout(r, 500));
+            }
+
+            if (p.pos >= total) {
+                let t = i18nData[currentLang];
+                alert(t.winMsg.replace('{n}', p.id));
+                isAnimating = false;
+                btn.disabled = false;
+                return;
+            }
+
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            updateGameUI();
+            
+            resultDiv.innerText = "";
+            btn.disabled = false;
+            isAnimating = false;
+        }
+
+        // 背景上傳處理
         document.getElementById('bg-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -923,15 +1272,11 @@
 
         function clearBackground() {
             const board = document.getElementById('game-board-container');
-            const fileInput = document.getElementById('bg-upload');
-            const clearBtn = document.getElementById('btn-clear-bg');
-            
             board.style.backgroundImage = '';
             board.style.backgroundSize = '';
             board.style.backgroundPosition = '';
-            
-            fileInput.value = '';
-            clearBtn.style.display = 'none';
+            document.getElementById('bg-upload').value = '';
+            document.getElementById('btn-clear-bg').style.display = 'none';
         }
 
         // 初始化
